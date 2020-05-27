@@ -36,14 +36,14 @@
 
   - name: Copy docker file to server
     copy:
-      src: /tmp/jenkins/task/Dockerfile
+      src: /tmp/jenkins_task/Dockerfile
       dest: /tmp/jenkins/Dockerfile
       mode: '0644'
 
   - name: Copy sample.war to server
     copy:
-      src: /tmp/jenkins/task/app1.war
-      dest: /tmp/jenkins/app1.war
+      src: /tmp/jenkins_task/app2.war
+      dest: /tmp/jenkins/app2.war
       mode: '0644'
 
   - name: build image
@@ -64,7 +64,7 @@
 
   - name: copy the nginx config file and restart nginx
     copy:
-      src: /tmp/jenkins/task/nginx.cfg
+      src: /tmp/jenkins_task/nginx.cfg
       dest: /etc/nginx/sites-available/nginx.cfg
 
   - name: create symlink
@@ -81,9 +81,11 @@
   post_tasks:
     - name: Instance Register
       local_action:
+        aws_access_key: AKIAJMRIQ5LKMZU3AH3A
+        aws_secret_key: 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
         module: ec2_elb
-        instance_id: i-0cf04c37c902ef27c
-        ec2_elbs: lb1
+        instance_id: i-0d6c459f3d608f63d
+        ec2_elbs: LB
         state: present
-        region: eu-west-3
+        region: eu-west-2
 

@@ -1,0 +1,91 @@
+---
+- hosts: all
+
+  become: yes
+  become_method: sudo
+  remote_user: ubuntu
+
+  tasks:
+  - name: update system
+    shell: apt update
+
+  - name: Install required system packages
+    apt: name={{ item }} state=latest update_cache=yes
+    loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv']
+
+
+  - name: Add Docker GPG apt Key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: Add Docker Repository
+    apt_repository:
+      repo: deb https://download.docker.com/linux/ubuntu bionic stable
+      state: present
+
+  - name: Update apt and install docker-ce
+    apt: update_cache=yes name=docker-ce state=latest
+
+  - name: Install Docker Module for Python
+    pip:
+      name: docker
+
+#  - name: make workdir
+#    shell: mkdir /tmp/jenkins/
+
+  - name: Copy docker file to server
+    copy:
+      src: /tmp/jenkins_task/Dockerfile
+      dest: /tmp/jenkins/Dockerfile
+      mode: '0644'
+
+  - name: Copy sample.war to server
+    copy:
+      src: /tmp/jenkins_task/app2.war
+      dest: /tmp/jenkins/app2.war
+      mode: '0644'
+
+  - name: build image
+    shell:
+      cmd: docker build -t tomcat_app -f ./Dockerfile .
+      chdir: /tmp/jenkins/
+
+#  - name: create container
+#    shell: docker run --name container3 -d -p 8081:8080 tomcat_app  
+
+  - name: ensure nginx is at the latest version
+    apt: name=nginx state=latest
+
+  - name: start nginx
+    service:
+       name: nginx
+       state: started
+
+  - name: copy the nginx config file and restart nginx
+    copy:
+      src: /tmp/jenkins_task/nginx.cfg
+      dest: /etc/nginx/sites-available/nginx.cfg
+
+  - name: create symlink
+    file:
+      src: /etc/nginx/sites-available/nginx.cfg
+      dest: /etc/nginx/sites-enabled/default
+      state: link
+
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted
+
+  post_tasks:
+    - name: Instance Register
+      local_action:
+        aws_access_key: AKIAJMRIQ5LKMZU3AH3A
+        aws_secret_key: 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
+        module: ec2_elb
+        instance_id: i-0d6c459f3d608f63d
+        ec2_elbs: LB
+        state: present
+        region: eu-west-2
+
