@@ -31,8 +31,8 @@
     pip:
       name: docker
 
-  - name: make workdir
-    shell: mkdir /tmp/jenkins/
+#  - name: make workdir
+#    shell: mkdir /tmp/jenkins/
 
   - name: Copy docker file to server
     copy:
@@ -51,8 +51,8 @@
       cmd: docker build -t tomcat_app -f ./Dockerfile .
       chdir: /tmp/jenkins/
 
-  - name: create container
-    shell: docker run --name container -d -p 8081:8080 tomcat_app  
+#  - name: create container
+#    shell: docker run --name container -d -p 8081:8080 tomcat_app  
 
   - name: ensure nginx is at the latest version
     apt: name=nginx state=latest
