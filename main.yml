@@ -31,18 +31,18 @@
     pip:
       name: docker
 
-  - name: make workdir
-    shell: mkdir /tmp/jenkins/
+#  - name: make workdir
+#    shell: mkdir /tmp/jenkins/
 
   - name: Copy docker file to server
     copy:
-      src: /tmp/jenkins/workspace/pl1-ansible/Dockerfile
+      src: /tmp/jenkins/task/Dockerfile
       dest: /tmp/jenkins/Dockerfile
       mode: '0644'
 
   - name: Copy sample.war to server
     copy:
-      src: /tmp/jenkins/workspace/pl1-ansible/app1.war
+      src: /tmp/jenkins/task/app1.war
       dest: /tmp/jenkins/app1.war
       mode: '0644'
 
@@ -51,8 +51,8 @@
       cmd: docker build -t tomcat_app -f ./Dockerfile .
       chdir: /tmp/jenkins/
 
-  - name: create container
-    shell: docker run --name container1 -d -p 8080:8080 tomcat_app  
+#  - name: create container
+#    shell: docker run --name container3 -d -p 8081:8080 tomcat_app  
 
   - name: ensure nginx is at the latest version
     apt: name=nginx state=latest
@@ -64,7 +64,7 @@
 
   - name: copy the nginx config file and restart nginx
     copy:
-      src: /tmp/jenkins/workspace/pl1-ansible/nginx.cfg
+      src: /tmp/jenkins/task/nginx.cfg
       dest: /etc/nginx/sites-available/nginx.cfg
 
   - name: create symlink
@@ -77,3 +77,13 @@
     service:
       name: nginx
       state: restarted
+
+  post_tasks:
+    - name: Instance Register
+      local_action:
+        module: ec2_elb
+        instance_id: i-0cf04c37c902ef27c
+        ec2_elbs: lb1
+        state: present
+        region: eu-west-3
+
