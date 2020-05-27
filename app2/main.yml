@@ -1,6 +1,5 @@
 ---
 - hosts: all
-
   become: yes
   become_method: sudo
   remote_user: ubuntu
@@ -31,18 +30,18 @@
     pip:
       name: docker
 
-#  - name: make workdir
-#    shell: mkdir /tmp/jenkins/
+  - name: make workdir
+    shell: mkdir /tmp/jenkins/
 
   - name: Copy docker file to server
     copy:
-      src: /tmp/jenkins_task/Dockerfile
+      src: /tmp/jenkins/workspace/pl1-ansible/app2/Dockerfile
       dest: /tmp/jenkins/Dockerfile
       mode: '0644'
 
-  - name: Copy sample.war to server
+  - name: Copy war to server
     copy:
-      src: /tmp/jenkins_task/app2.war
+      src: /tmp/jenkins/workspace/pl1-ansible/app2/app2.war
       dest: /tmp/jenkins/app2.war
       mode: '0644'
 
@@ -51,8 +50,8 @@
       cmd: docker build -t tomcat_app -f ./Dockerfile .
       chdir: /tmp/jenkins/
 
-#  - name: create container
-#    shell: docker run --name container3 -d -p 8081:8080 tomcat_app  
+  - name: create container
+    shell: docker run --name container3 -d -p 8081:8080 tomcat_app  
 
   - name: ensure nginx is at the latest version
     apt: name=nginx state=latest
@@ -64,7 +63,7 @@
 
   - name: copy the nginx config file and restart nginx
     copy:
-      src: /tmp/jenkins_task/nginx.cfg
+      src: /tmp/jenkins/workspace/pl1-ansible/app2/nginx.cfg
       dest: /etc/nginx/sites-available/nginx.cfg
 
   - name: create symlink
@@ -81,11 +80,11 @@
   post_tasks:
     - name: Instance Register
       local_action:
-        aws_access_key: AKIAJMRIQ5LKMZU3AH3A
-        aws_secret_key: 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
+        aws_access_key: AKIAIQKG6NYZ2ASR2ZEA
+        aws_secret_key: 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
         module: ec2_elb
-        instance_id: i-0d6c459f3d608f63d
-        ec2_elbs: LB
+        instance_id: i-07d1bc224889f8d7e
+        ec2_elbs: ELB
         state: present
         region: eu-west-2
 
