@@ -4,10 +4,12 @@ pipeline {
   agent any
 
   stages {
-    stage('install docker image') {
+    stage('install app1 to server') {
       steps {
         sh """
-        chmod 400 XTZ.pem
+        cd app1/
+        pwd
+        chmod 400 LSD.pem
         ansible-playbook -i hosts main.yml
         """
       }
