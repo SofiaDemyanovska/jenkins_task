@@ -4,7 +4,7 @@ pipeline {
   agent any
 
   stages {
-    stage('install app1 to server') {
+    stage('install app1 to host1') {
       steps {
         sh """
         cd app1/
@@ -13,7 +13,18 @@ pipeline {
         ansible-playbook -i hosts main.yml
         """
       }
+    }
 
+    stage('install app2 to host2'){
+      steps {
+        sh """
+        cd ..
+        cd app2/
+        pwd
+        chmod LSD.pem
+        ansible-playbook -i hosts main.yml
+        """
+      }
     }
   }
 }
