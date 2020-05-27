@@ -102,13 +102,13 @@
           healthy_threshold: 10
 
 
-    - name: Instance Register
-      local_action:
-        aws_access_key: AKIAIQKG6NYZ2ASR2ZEA
-        aws_secret_key: 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
-        module: ec2_elb
-        instance_id: i-08189bf21a7d47589
-        ec2_elbs: ELB
-        state: present
-        region: eu-west-2
+  - name: Instance Register
+    local_action:
+      aws_access_key: AKIAIQKG6NYZ2ASR2ZEA
+      aws_secret_key: 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
+      module: ec2_elb
+      instance_id: i-08189bf21a7d47589
+      ec2_elbs: ELB
+      state: present
+      region: eu-west-2
 
