@@ -10,7 +10,7 @@ pipeline {
         cd app1/
         pwd
         chmod 400 LSD.pem
-        ansible-playbook -i hosts main.yml
+        ansible-playbook -i hosts app1.yml
         """
       }
 
