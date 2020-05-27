@@ -1,6 +1,5 @@
 ---
 - hosts: all
-
   become: yes
   become_method: sudo
   remote_user: ubuntu
@@ -31,8 +30,8 @@
     pip:
       name: docker
 
-#  - name: make workdir
-#    shell: mkdir /tmp/jenkins/
+  - name: make workdir
+    shell: mkdir /tmp/jenkins/
 
   - name: Copy docker file to server
     copy:
@@ -51,8 +50,8 @@
       cmd: docker build -t tomcat_app -f ./Dockerfile .
       chdir: /tmp/jenkins/
 
-#  - name: create container
-#    shell: docker run --name container -d -p 8081:8080 tomcat_app  
+  - name: create container
+    shell: docker run --name container -d -p 8081:8080 tomcat_app  
 
   - name: ensure nginx is at the latest version
     apt: name=nginx state=latest
@@ -83,8 +82,8 @@
       name: "ELB"
       state: present
       region: eu-west-2
-      aws_access_key: AKIAJMRIQ5LKMZU3AH3A
-      aws_secret_key: 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
+      aws_access_key: AKIAIQKG6NYZ2ASR2ZEA
+      aws_secret_key: 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
       zones:
         - eu-west-2a
         - eu-west-2b
@@ -101,3 +100,15 @@
           interval: 5
           unhealthy_threshold: 2
           healthy_threshold: 10
+
+
+    - name: Instance Register
+      local_action:
+        aws_access_key: AKIAIQKG6NYZ2ASR2ZEA
+        aws_secret_key: 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
+        module: ec2_elb
+        instance_id: i-08189bf21a7d47589
+        ec2_elbs: ELB
+        state: present
+        region: eu-west-2
+
