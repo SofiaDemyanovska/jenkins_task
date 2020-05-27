@@ -42,8 +42,8 @@
 
   - name: Copy sample.war to server
     copy:
-      src: /tmp/jenkins/workspace/pl1-ansible/sample.war
-      dest: /tmp/jenkins/sample.war
+      src: /tmp/jenkins/workspace/pl1-ansible/app1.war
+      dest: /tmp/jenkins/app1.war
       mode: '0644'
 
   - name: build image
@@ -54,3 +54,26 @@
   - name: create container
     shell: docker run --name container1 -d -p 8080:8080 tomcat_app  
 
+  - name: ensure nginx is at the latest version
+    apt: name=nginx state=latest
+
+  - name: start nginx
+    service:
+       name: nginx
+       state: started
+
+  - name: copy the nginx config file and restart nginx
+    copy:
+      src: /tmp/jenkins/workspace/pl1-ansible/nginx.cfg
+      dest: /etc/nginx/sites-available/nginx.cfg
+
+  - name: create symlink
+    file:
+      src: /etc/nginx/sites-available/nginx.cfg
+      dest: /etc/nginx/sites-enabled/default
+      state: link
+
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted
