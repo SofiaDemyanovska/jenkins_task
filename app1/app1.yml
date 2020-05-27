@@ -83,6 +83,8 @@
       name: "ELB"
       state: present
       region: eu-west-2
+      aws_access_key: AKIAJMRIQ5LKMZU3AH3A
+      aws_secret_key: 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
       zones:
         - eu-west-2a
         - eu-west-2b
