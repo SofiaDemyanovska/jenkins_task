@@ -94,6 +94,8 @@
 
     - name: Terminate app1
       ec2:
+        aws_access_key: AKIAJOY76PWXD5DUDJCA
+        aws_secret_key: 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
         state: 'absent'
         instance_ids: 'i-0eaa0346b83362e6c'
         region: eu-west-1
