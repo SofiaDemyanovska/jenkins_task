@@ -51,7 +51,7 @@
       chdir: /tmp/jenkins/
 
   - name: create container
-    shell: docker run --name container -d -p 8081:8080 tomcat_app  
+    shell: docker run --name container -d -p 8080:8080 tomcat_app  
 
   - name: ensure nginx is at the latest version
     apt: name=nginx state=latest
@@ -81,13 +81,13 @@
       module: ec2_elb_lb
       name: "ELB"
       state: present
-      region: eu-west-2
-      aws_access_key: AKIAIQKG6NYZ2ASR2ZEA
-      aws_secret_key: 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
+      region: eu-west-1
+      aws_access_key: AKIAIYZHZDUGUBVNFIMA
+      aws_secret_key: 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
       zones:
-        - eu-west-2a
-        - eu-west-2b
-        - eu-west-2c
+        - eu-west-1a
+        - eu-west-1b
+        - eu-west-1c
       listeners:
         - protocol: http
           load_balancer_port: 80
@@ -104,11 +104,11 @@
 
   - name: Instance Register
     local_action:
-      aws_access_key: AKIAIQKG6NYZ2ASR2ZEA
-      aws_secret_key: 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
+      aws_access_key: AKIAIYZHZDUGUBVNFIMA
+      aws_secret_key: 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
       module: ec2_elb
-      instance_id: i-037ca2134ef94e94c
+      instance_id: i-0eaa0346b83362e6c
       ec2_elbs: ELB
       state: present
-      region: eu-west-2
+      region: eu-west-1
 

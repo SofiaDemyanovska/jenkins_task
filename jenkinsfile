@@ -9,7 +9,7 @@ pipeline {
         sh """
         cd app1/
         pwd
-        chmod 400 LSD.pem
+        chmod 400 2CB.pem
         ansible-playbook -i hosts main.yml
         """
       }
@@ -21,7 +21,7 @@ pipeline {
         cd ..
         cd app2/
         pwd
-        chmod LSD.pem
+        chmod 2CB.pem
         ansible-playbook -i hosts main.yml
         """
       }
