@@ -10,7 +10,7 @@ pipeline {
           sh """
           cd app1/vars/
           pwd         
-          cd ~
+          cd ..
           pwd
           echo "$AWS_SECRET_ACCESS_KEY" >> aws_access_key.yml
           echo "$AWS_ACCESS_KEY_ID" >> aws_secret_key.yml        
