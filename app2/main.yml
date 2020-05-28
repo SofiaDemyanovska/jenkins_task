@@ -30,7 +30,11 @@
     pip:
       name: docker
 
-  - name: make workdir
+  - name: Install boto for Python
+    pip:
+      name: boto
+
+  - name: Make workdir
     shell: mkdir /tmp/jenkins/
 
   - name: Copy docker file to server
@@ -45,34 +49,34 @@
       dest: /tmp/jenkins/app2.war
       mode: '0644'
 
-  - name: build image
+  - name: Build image
     shell:
       cmd: docker build -t tomcat_app -f ./Dockerfile .
       chdir: /tmp/jenkins/
 
-  - name: create container
+  - name: Create container
     shell: docker run --name container3 -d -p 8080:8080 tomcat_app  
 
-  - name: ensure nginx is at the latest version
+  - name: Ensure nginx is at the latest version
     apt: name=nginx state=latest
 
-  - name: start nginx
+  - name: Start nginx
     service:
        name: nginx
        state: started
 
-  - name: copy the nginx config file and restart nginx
+  - name: Copy the nginx config file and restart nginx
     copy:
       src: /tmp/jenkins/workspace/pl1-ansible/app2/nginx.cfg
       dest: /etc/nginx/sites-available/nginx.cfg
 
-  - name: create symlink
+  - name: Create symlink
     file:
       src: /etc/nginx/sites-available/nginx.cfg
       dest: /etc/nginx/sites-enabled/default
       state: link
 
-  - name: restart nginx
+  - name: Restart nginx
     service:
       name: nginx
       state: restarted
@@ -80,8 +84,8 @@
   post_tasks:
     - name: Instance Register
       local_action:
-        aws_access_key: AKIAIYZHZDUGUBVNFIMA
-        aws_secret_key: 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
+        aws_access_key: AKIAJOY76PWXD5DUDJCA
+        aws_secret_key: 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
         module: ec2_elb
         instance_id: i-0efaad620e772f3b3
         ec2_elbs: ELB

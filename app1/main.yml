@@ -12,7 +12,6 @@
     apt: name={{ item }} state=latest update_cache=yes
     loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv']
 
-
   - name: Add Docker GPG apt Key
     apt_key:
       url: https://download.docker.com/linux/ubuntu/gpg
@@ -29,6 +28,10 @@
   - name: Install Docker Module for Python
     pip:
       name: docker
+
+  - name: Install boto for Python
+    pip:
+      name: boto
 
 #  - name: make workdir
 #    shell: mkdir /tmp/jenkins/
@@ -82,8 +85,8 @@
       name: "ELB"
       state: present
       region: eu-west-1
-      aws_access_key: AKIAIYZHZDUGUBVNFIMA
-      aws_secret_key: 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
+      aws_access_key: AKIAJOY76PWXD5DUDJCA
+      aws_secret_key: 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
       zones:
         - eu-west-1a
         - eu-west-1b
@@ -104,8 +107,8 @@
 
   - name: Instance Register
     local_action:
-      aws_access_key: AKIAIYZHZDUGUBVNFIMA
-      aws_secret_key: 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
+      aws_access_key: AKIAJOY76PWXD5DUDJCA
+      aws_secret_key: 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
       module: ec2_elb
       instance_id: i-0eaa0346b83362e6c
       ec2_elbs: ELB
