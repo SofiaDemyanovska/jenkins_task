@@ -10,10 +10,10 @@ pipeline {
           sh """
           cd app1/vars/
           cd ..
-          echo "$AWS_SECRET_ACCESS_KEY" >> aws_access_key.yml
+          echo "AWS_ACCESS_KEY_ID" >> aws_access_key.yml
           cat aws_access_key.yml
 
-          echo "$AWS_ACCESS_KEY_ID" >> aws_secret_key.yml        
+          echo "$AWS_SECRET_ACCESS_KEY" >> aws_secret_key.yml        
           cat aws_secret_key.yml  
           chmod 400 2CB.pem
           ansible-playbook main.yml
