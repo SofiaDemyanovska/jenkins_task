@@ -5,13 +5,17 @@ pipeline {
 
   stages {
     stage('install app1 to host1') {
-      steps {
-        sh """
-        cd app1/
-        pwd
-        chmod 400 2CB.pem
-        ansible-playbook -i hosts main.yml
-        """
+      withCredentials([usernamePassword(credentialsId: 'aws_cred', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+        steps {
+          sh """
+          cd app1/vars/
+          pwd         
+          echo "$AWS_SECRET_ACCESS_KEY" >> aws_access_key.yml
+          echo "$AWS_ACCESS_KEY_ID" >> aws_access_key.yml        
+          chmod 400 2CB.pem
+          ansible-playbook -i hosts main.yml
+          """
+        }
       }
     }
 

@@ -5,6 +5,9 @@
   remote_user: ubuntu
 
   tasks:
+  - include_vars: aws_access_key.yml
+  - include_vars: aws_secret_key.yml
+
   - name: update system
     shell: apt update
 
@@ -82,11 +85,11 @@
 
   - local_action:
       module: ec2_elb_lb
-      name: "ELB"
+      name: "LB"
       state: present
       region: eu-west-1
-      aws_access_key: AKIAJOY76PWXD5DUDJCA
-      aws_secret_key: 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
+      aws_access_key: "{{ var_aws_access_key }}"
+      aws_secret_key: "{{ var_aws_secret_key }}"
       zones:
         - eu-west-1a
         - eu-west-1b
@@ -107,11 +110,11 @@
 
   - name: Instance Register
     local_action:
-      aws_access_key: AKIAJOY76PWXD5DUDJCA
-      aws_secret_key: 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
+      aws_access_key: "{{ var_aws_access_key }}"
+      aws_secret_key: "{{ var_aws_secret_key }}"
       module: ec2_elb
-      instance_id: i-0eaa0346b83362e6c
-      ec2_elbs: ELB
+      instance_id: i-0afa72a346dc253c2
+      ec2_elbs: LB
       state: present
       region: eu-west-1
 
