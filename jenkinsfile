@@ -1,12 +1,12 @@
-#!/usr/bin/env groovy
+#/bin/bash
 
 pipeline {
   agent any
 
   stages {
     stage('install app1 to host1') {
-      withCredentials([usernamePassword(credentialsId: 'aws_cred', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
-        steps {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'aws_cred', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
           sh """
           cd app1/vars/
           pwd         
