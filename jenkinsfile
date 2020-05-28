@@ -13,7 +13,7 @@ pipeline {
           echo "$AWS_SECRET_ACCESS_KEY" >> aws_access_key.yml
           echo "$AWS_ACCESS_KEY_ID" >> aws_secret_key.yml        
           chmod 400 2CB.pem
-          ansible-playbook -i hosts main.yml
+          ansible-playbook main.yml
           """
         }
       }
@@ -27,7 +27,7 @@ pipeline {
           echo "$AWS_SECRET_ACCESS_KEY" >> aws_access_key.yml
           echo "$AWS_ACCESS_KEY_ID" >> aws_secret_key.yml  
           chmod 400 2CB.pem
-          ansible-playbook -i hosts main.yml
+          ansible-playbook main.yml
           """
         }
       }

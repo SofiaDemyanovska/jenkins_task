@@ -1,2 +1,2 @@
 [webserver]
-ubuntu ansible_host=54.194.202.146 ansible_user=ubuntu ansible_ssh_private_key_file=./2CB.pem
+ubuntu ansible_host=3.250.66.149 ansible_user=ubuntu ansible_ssh_private_key_file=./2CB.pem
