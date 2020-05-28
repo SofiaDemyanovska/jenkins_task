@@ -19,6 +19,7 @@ pipeline {
       steps {
         sh """
         cd ..
+        pwd
         cd app2/
         pwd
         chmod 2CB.pem
