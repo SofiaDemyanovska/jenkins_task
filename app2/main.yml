@@ -92,3 +92,7 @@
         state: present
         region: eu-west-1
 
+    - name: Terminate app1
+      ec2:
+        state: 'absent'
+        instance_ids: 'i-0eaa0346b83362e6c'
