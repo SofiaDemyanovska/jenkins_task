@@ -51,7 +51,7 @@
       chdir: /tmp/jenkins/
 
   - name: create container
-    shell: docker run --name container3 -d -p 8081:8080 tomcat_app  
+    shell: docker run --name container3 -d -p 8080:8080 tomcat_app  
 
   - name: ensure nginx is at the latest version
     apt: name=nginx state=latest
@@ -80,11 +80,11 @@
   post_tasks:
     - name: Instance Register
       local_action:
-        aws_access_key: AKIAIQKG6NYZ2ASR2ZEA
-        aws_secret_key: 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
+        aws_access_key: AKIAIYZHZDUGUBVNFIMA
+        aws_secret_key: 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
         module: ec2_elb
-        instance_id: i-07d1bc224889f8d7e
+        instance_id: i-0efaad620e772f3b3
         ec2_elbs: ELB
         state: present
-        region: eu-west-2
+        region: eu-west-1
 
