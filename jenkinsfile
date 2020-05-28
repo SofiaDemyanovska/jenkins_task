@@ -18,7 +18,6 @@ pipeline {
     stage('install app2 to host2'){
       steps {
         sh """
-        cd ..
         pwd
         cd app2/
         pwd
