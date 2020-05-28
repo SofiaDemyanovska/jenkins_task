@@ -85,7 +85,7 @@
 
   - local_action:
       module: ec2_elb_lb
-      name: "LB"
+      name: "ELB"
       state: present
       region: eu-west-1
       aws_access_key: "{{ var_aws_access_key }}"
@@ -113,8 +113,8 @@
       aws_access_key: "{{ var_aws_access_key }}"
       aws_secret_key: "{{ var_aws_secret_key }}"
       module: ec2_elb
-      instance_id: i-0afa72a346dc253c2
-      ec2_elbs: LB
+      instance_id: i-081173f2606972781
+      ec2_elbs: ELB
       state: present
       region: eu-west-1
 
