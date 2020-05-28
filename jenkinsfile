@@ -9,9 +9,7 @@ pipeline {
         withCredentials([usernamePassword(credentialsId: 'aws_cred', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
           sh """
           cd app1/vars/
-          pwd         
           cd ..
-          pwd
           echo "$AWS_SECRET_ACCESS_KEY" >> aws_access_key.yml
           echo "$AWS_ACCESS_KEY_ID" >> aws_secret_key.yml        
           chmod 400 2CB.pem
@@ -23,12 +21,15 @@ pipeline {
 
     stage('install app2 to host2'){
       steps {
-        sh """
-        pwd
-        cd app2/
-        chmod 400 2CB.pem
-        ansible-playbook -i hosts main.yml
-        """
+        withCredentials([usernamePassword(credentialsId: 'aws_cred', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+          sh """
+          cd app2/
+          echo "$AWS_SECRET_ACCESS_KEY" >> aws_access_key.yml
+          echo "$AWS_ACCESS_KEY_ID" >> aws_secret_key.yml  
+          chmod 400 2CB.pem
+          ansible-playbook -i hosts main.yml
+          """
+        }
       }
     }
   }
