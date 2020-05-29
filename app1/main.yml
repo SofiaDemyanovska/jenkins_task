@@ -113,7 +113,7 @@
       aws_access_key: "{{ var_aws_access_key }}"
       aws_secret_key: "{{ var_aws_secret_key }}"
       module: ec2_elb
-      instance_id: i-0e9c9478a670ff8e7
+      instance_id: i-054cdad1c4b3de98d
       ec2_elbs: ELB
       state: present
       region: eu-west-1
