@@ -9,12 +9,9 @@ pipeline {
         withCredentials([usernamePassword(credentialsId: 'aws_cred', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
           sh """
           cd app1/vars/
-          cd ..
           echo "AWS_ACCESS_KEY_ID" >> aws_access_key.yml
-          cat aws_access_key.yml
-
           echo "$AWS_SECRET_ACCESS_KEY" >> aws_secret_key.yml        
-          cat aws_secret_key.yml  
+          cd ..
           chmod 400 2CB.pem
           ansible-playbook main.yml
           """
@@ -26,9 +23,10 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'aws_cred', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
           sh """
-          cd app2/
+          cd app2/vars/
           echo "$AWS_SECRET_ACCESS_KEY" >> aws_access_key.yml
           echo "$AWS_ACCESS_KEY_ID" >> aws_secret_key.yml  
+          cd ..
           chmod 400 2CB.pem
           ansible-playbook main.yml
           """
