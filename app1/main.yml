@@ -36,8 +36,8 @@
     pip:
       name: boto
 
-#  - name: make workdir
-#    shell: mkdir /tmp/jenkins/
+  - name: make workdir
+    shell: mkdir /tmp/jenkins/
 
   - name: Copy docker file to server
     copy:
@@ -56,8 +56,8 @@
       cmd: docker build -t tomcat_app -f ./Dockerfile .
       chdir: /tmp/jenkins/
 
-#  - name: create container
-#    shell: docker run --name container -d -p 8080:8080 tomcat_app  
+  - name: create container
+    shell: docker run --name container -d -p 8080:8080 tomcat_app  
 
   - name: ensure nginx is at the latest version
     apt: name=nginx state=latest
@@ -113,7 +113,7 @@
       aws_access_key: "{{ var_aws_access_key }}"
       aws_secret_key: "{{ var_aws_secret_key }}"
       module: ec2_elb
-      instance_id: i-081173f2606972781
+      instance_id: i-06098ad9df101c760
       ec2_elbs: ELB
       state: present
       region: eu-west-1
