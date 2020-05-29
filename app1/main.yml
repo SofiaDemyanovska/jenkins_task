@@ -102,8 +102,8 @@
           ping_protocol: http
           ping_port: 80
           ping_path: "/"
-          response_timeout: 2
-          interval: 5
+          response_timeout: 5
+          interval: 30
           unhealthy_threshold: 2
           healthy_threshold: 10
 
@@ -113,7 +113,7 @@
       aws_access_key: "{{ var_aws_access_key }}"
       aws_secret_key: "{{ var_aws_secret_key }}"
       module: ec2_elb
-      instance_id: i-06098ad9df101c760
+      instance_id: i-002757d0a40e05eb0
       ec2_elbs: ELB
       state: present
       region: eu-west-1
