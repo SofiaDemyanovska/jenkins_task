@@ -41,13 +41,13 @@
 
   - name: Copy docker file to server
     copy:
-      src: /tmp/jenkins/workspace/pl1-ansible/app2/Dockerfile
+      src: /var/lib/jenkins/workspace/pl-ansible/app2/Dockerfile
       dest: /tmp/jenkins/Dockerfile
       mode: '0644'
 
   - name: Copy war to server
     copy:
-      src: /tmp/jenkins/workspace/pl1-ansible/app2/app2.war
+      src: /var/lib/jenkins/workspace/pl-ansible/app2/app2.war
       dest: /tmp/jenkins/app2.war
       mode: '0644'
 
@@ -69,7 +69,7 @@
 
   - name: Copy the nginx config file and restart nginx
     copy:
-      src: /tmp/jenkins/workspace/pl1-ansible/app2/nginx.cfg
+      src: /var/lib/jenkins/workspace/pl-ansible/app2/nginx.cfg
       dest: /etc/nginx/sites-available/nginx.cfg
 
   - name: Create symlink

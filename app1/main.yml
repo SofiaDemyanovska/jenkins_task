@@ -38,3 +38,83 @@
       state: directory
       mode: '0755'
 
+
+  - name: Copy docker file to server
+    copy:
+      src: /var/lib/jenkins/workspace/pl-ansible/app1/Dockerfile
+      dest: /tmp/jenkins/Dockerfile
+      mode: '0644'
+
+  - name: Copy sample.war to server
+    copy:
+      src: /var/lib/jenkins/workspace/pl-ansible/app1/app1.war
+      dest: /tmp/jenkins/app1.war
+      mode: '0644'
+
+  - name: build image
+    shell:
+      cmd: docker build -t tomcat_app -f ./Dockerfile .
+      chdir: /tmp/jenkins/
+
+  - name: create container
+    shell: docker run --name container -d -p 8080:8080 tomcat_app  
+
+  - name: ensure nginx is at the latest version
+    apt: name=nginx state=latest
+
+  - name: start nginx
+    service:
+       name: nginx
+       state: started
+
+  - name: copy the nginx config file and restart nginx
+    copy:
+      src: /var/lib/jenkins/workspace/pl-ansible/app1/nginx.cfg
+      dest: /etc/nginx/sites-available/nginx.cfg
+
+  - name: create symlink
+    file:
+      src: /etc/nginx/sites-available/nginx.cfg
+      dest: /etc/nginx/sites-enabled/default
+      state: link
+
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted
+
+  - local_action:
+      module: ec2_elb_lb
+      name: "ELB"
+      state: present
+      region: eu-west-1
+      aws_access_key: "{{ var_aws_access_key }}"
+      aws_secret_key: "{{ var_aws_secret_key }}"
+      zones:
+        - eu-west-1a
+        - eu-west-1b
+        - eu-west-1c
+      listeners:
+        - protocol: http
+          load_balancer_port: 80
+          instance_port: 80
+      health_check:
+          ping_protocol: http
+          ping_port: 80
+          ping_path: "/"
+          response_timeout: 5
+          interval: 30
+          unhealthy_threshold: 5
+          healthy_threshold: 10
+
+
+  - name: Instance Register
+    local_action:
+      aws_access_key: "{{ var_aws_access_key }}"
+      aws_secret_key: "{{ var_aws_secret_key }}"
+      module: ec2_elb
+      instance_id: i-054cdad1c4b3de98d
+      ec2_elbs: ELB
+      state: present
+      region: eu-west-1
+
