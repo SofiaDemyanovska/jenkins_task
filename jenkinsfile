@@ -8,6 +8,7 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'aws_cred', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
           sh """
+          pwd
           cd app1/vars/
           echo "$AWS_ACCESS_KEY_ID" >> aws_access_key.yml
           echo "$AWS_SECRET_ACCESS_KEY" >> aws_secret_key.yml        
