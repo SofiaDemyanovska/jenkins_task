@@ -56,8 +56,8 @@
       cmd: docker build -t tomcat_app -f ./Dockerfile .
       chdir: /tmp/jenkins/
 
-  - name: create container
-    shell: docker run --name container -d -p 8080:8080 tomcat_app  
+#  - name: create container
+#    shell: docker run --name container -d -p 8080:8080 tomcat_app  
 
   - name: ensure nginx is at the latest version
     apt: name=nginx state=latest
@@ -102,10 +102,10 @@
           ping_protocol: http
           ping_port: 80
           ping_path: "/"
-          response_timeout: 5
-          interval: 15
-          unhealthy_threshold: 15
-          healthy_threshold: 10
+          response_timeout: 15
+          interval: 10
+          unhealthy_threshold: 2
+          healthy_threshold: 2
 
   - name: Instance Register
     local_action:
