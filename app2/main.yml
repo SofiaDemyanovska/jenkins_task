@@ -60,8 +60,8 @@
       cmd: docker build -t tomcat_app -f ./Dockerfile .
       chdir: /tmp/jenkins/
 
-#  - name: Create container
-#    shell: docker run --name container3 -d -p 8080:8080 tomcat_app  
+  - name: Create container
+    shell: docker run --name container3 -d -p 8080:8080 tomcat_app  
 
   - name: Ensure nginx is at the latest version
     apt: name=nginx state=latest
@@ -93,7 +93,7 @@
         aws_access_key: "{{ var_aws_access_key }}"
         aws_secret_key: "{{ var_aws_secret_key }}"
         module: ec2_elb
-        instance_id: i-0bd7110ce16abd140
+        instance_id: i-0be1b4565bc8a0cf3
         ec2_elbs: ELB
         state: present
         region: eu-west-1
@@ -103,5 +103,5 @@
         aws_access_key: "{{ var_aws_access_key }}"
         aws_secret_key: "{{ var_aws_secret_key }}"
         state: 'absent'
-        instance_ids: 'i-04934af34d675644f'
+        instance_ids: 'i-02dd351337e8631d1'
         region: eu-west-1
