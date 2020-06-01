@@ -13,7 +13,7 @@ pipeline {
          echo "$AWS_SECRET_ACCESS_KEY" >> aws_secret_key.yml        
          cd ..
          chmod 400 2CB.pem
-         ansible-playbook -b main.yml
+         ansible-playbook -b main.yml --sudo
          """
        }
      }
