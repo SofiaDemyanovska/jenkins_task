@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  become: no
+  become: yes
   become_method: sudo
   remote_user: ubuntu
 
@@ -38,23 +38,22 @@
       state: directory
       mode: '0755'
 
+#  - name: Copy docker file to server
+#    copy:
+#      src: /tmp/jenkins/workspace/pl1-ansible/app1/Dockerfile
+#      dest: /tmp/jenkins/Dockerfile
+#      mode: '0644'
 
-  - name: Copy docker file to server
-    copy:
-      src: /var/lib/jenkins/workspace/pl-ansible/app1/Dockerfile
-      dest: /tmp/jenkins/Dockerfile
-      mode: '0644'
+#  - name: Copy sample.war to server
+#    copy:
+#      src: /tmp/jenkins/workspace/pl1-ansible/app1/app1.war
+#      dest: /tmp/jenkins/app1.war
+#      mode: '0644'#
 
-  - name: Copy sample.war to server
-    copy:
-      src: /var/lib/jenkins/workspace/pl-ansible/app1/app1.war
-      dest: /tmp/jenkins/app1.war
-      mode: '0644'
-
-  - name: build image
-    shell:
-      cmd: docker build -t tomcat_app -f ./Dockerfile .
-      chdir: /tmp/jenkins/
+#  - name: build image
+#    shell:
+#      cmd: docker build -t tomcat_app -f ./Dockerfile .
+#      chdir: /tmp/jenkins/
 
 #  - name: create container
 #    shell: docker run --name container -d -p 8080:8080 tomcat_app  
@@ -69,7 +68,7 @@
 
   - name: copy the nginx config file and restart nginx
     copy:
-      src: /var/lib/jenkins/workspace/pl-ansible/app1/nginx.cfg
+      src: /tmp/jenkins/workspace/pl1-ansible/app1/nginx.cfg
       dest: /etc/nginx/sites-available/nginx.cfg
 
   - name: create symlink
