@@ -103,7 +103,7 @@
           ping_port: 80
           ping_path: "/"
           response_timeout: 15
-          interval: 10
+          interval: 16
           unhealthy_threshold: 2
           healthy_threshold: 2
 
