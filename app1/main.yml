@@ -103,8 +103,8 @@
           ping_port: 80
           ping_path: "/"
           response_timeout: 5
-          interval: 30
-          unhealthy_threshold: 5
+          interval: 15
+          unhealthy_threshold: 10
           healthy_threshold: 10
 
   - name: Instance Register
